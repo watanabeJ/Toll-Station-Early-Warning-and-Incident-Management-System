@@ -6,9 +6,17 @@ interface EventListViewProps {
   events: TollStationEvent[];
   onSubmitProcess: (eventId: string, action: HandlerAction | "误报", opinion: string) => void;
   showAnnotations: boolean;
+  initialSelectedEvent?: TollStationEvent | null;
+  onClearInitialSelectedEvent?: () => void;
 }
 
-export default function EventListView({ events, onSubmitProcess, showAnnotations }: EventListViewProps) {
+export default function EventListView({
+  events,
+  onSubmitProcess,
+  showAnnotations,
+  initialSelectedEvent,
+  onClearInitialSelectedEvent,
+}: EventListViewProps) {
   // Query Filters State
   const [filterType, setFilterType] = useState<string>("全部");
   const [filterStatus, setFilterStatus] = useState<string>("全部");
@@ -21,6 +29,28 @@ export default function EventListView({ events, onSubmitProcess, showAnnotations
   const [handlingTab, setHandlingTab] = useState<"办结" | "误报">("办结");
   const [handlingSubAction, setHandlingSubAction] = useState<"正常" | "劝阻无效">("正常");
   const [opinionText, setOpinionText] = useState("");
+
+  // Auto-open if initialSelectedEvent is passed from RealTime monitoring view
+  React.useEffect(() => {
+    if (initialSelectedEvent) {
+      const currentEvent = events.find(e => e.id === initialSelectedEvent.id) || initialSelectedEvent;
+      setSelectedEvent(currentEvent);
+      setHandlingTab("办结");
+      setHandlingSubAction("正常");
+      setOpinionText("");
+      
+      // Auto-clear active query filters to ensure the event matches the visual table view too
+      setFilterType("全部");
+      setFilterStatus("全部");
+      setFilterAction("全部");
+      setFilterId("");
+      setFilterDate("");
+
+      if (onClearInitialSelectedEvent) {
+        onClearInitialSelectedEvent();
+      }
+    }
+  }, [initialSelectedEvent, events, onClearInitialSelectedEvent]);
   
   // Original Image Modal State
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
@@ -321,11 +351,6 @@ export default function EventListView({ events, onSubmitProcess, showAnnotations
                 <section>
                   <h4 className="text-xs font-bold text-gray-500 mb-2 flex items-center justify-between">
                     <span>事件详情</span>
-                    {selectedEvent.status === EventStatus.Pending && (
-                      <span className="text-[10px] text-red-500 bg-red-50 border border-red-100 rounded px-1.5 py-0.5 animate-pulse">
-                        ● 紧急处理中
-                      </span>
-                    )}
                   </h4>
                   <div className="bg-gray-50 rounded-md p-4 space-y-3 text-xs">
                     <div className="flex border-b border-gray-200/50 pb-2">

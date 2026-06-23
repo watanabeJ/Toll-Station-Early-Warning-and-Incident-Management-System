@@ -128,6 +128,7 @@ export default function App() {
 
   const [currentStation, setCurrentStation] = useState<string>("永川西收费站");
   const [currentMenu, setCurrentMenu] = useState<ActiveMenu>("workstation_realtime");
+  const [initialSelectedEvent, setInitialSelectedEvent] = useState<any | null>(null);
   
   // Custom annotation reviews display state (Interactive Floating Reviews)
   const [showAnnotations, setShowAnnotations] = useState<boolean>(true);
@@ -400,14 +401,8 @@ export default function App() {
           <RealTimeView
             events={filteredUserEvents}
             onOpenProcessModal={(ev) => {
+              setInitialSelectedEvent(ev);
               setCurrentMenu("workstation_eventlist");
-              // simulated small timeout to trigger action click seamlessly
-              setTimeout(() => {
-                const processBtn = document.querySelector(`[id="event-table"]`);
-                if (processBtn) {
-                  // highlight detail lists
-                }
-              }, 100);
             }}
             onCloseEventDirectly={handleCloseEventDirectly}
             showAnnotations={showAnnotations}
@@ -419,6 +414,8 @@ export default function App() {
             events={filteredUserEvents}
             onSubmitProcess={handleProcessSubmit}
             showAnnotations={showAnnotations}
+            initialSelectedEvent={initialSelectedEvent}
+            onClearInitialSelectedEvent={() => setInitialSelectedEvent(null)}
           />
         );
       case "station":

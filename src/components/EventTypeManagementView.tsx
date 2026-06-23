@@ -65,15 +65,6 @@ const INITIAL_EVENT_TYPES: AIEventType[] = [
     enabled: true,
     captureCount: 45,
     description: "起落杆道闸发生异常快速反弹回落、栏杆未能正常抬起导致轿车撞栏、或长挂车砸杆故障"
-  },
-  {
-    key: "wrongway_driver",
-    name: "车辆逆行及闯卡",
-    category: "交通安全",
-    level: "DANGER",
-    enabled: false,
-    captureCount: 7,
-    description: "过闸车辆在收费广场、匝道内进行危险逆向倒车、逆向行驶或强行冲卡"
   }
 ];
 

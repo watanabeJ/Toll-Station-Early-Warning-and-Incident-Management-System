@@ -328,7 +328,7 @@ export default function GeneralConfigView({ onAppendLog, showAnnotations = true 
             <div className="px-5 py-4 flex items-center justify-between gap-4">
               <div className="space-y-0.5 max-w-[65%]">
                 <h4 className="text-xs font-bold text-gray-800">调用播放接口后的等待秒数</h4>
-                <p className="text-[11px] text-gray-400 leading-normal">语音播报调用播放接口后的等待延迟时间（数字人/音响底层交互组件）。</p>
+                <p className="text-[11px] text-gray-400 leading-normal">语音播报调用播放接口后的等待延迟时间。</p>
               </div>
               <div className="flex items-center gap-1.5 select-none">
                 <button

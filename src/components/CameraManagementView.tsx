@@ -91,8 +91,7 @@ export default function CameraManagementView({
       { key: "forbidden_bus", name: "客车禁行时段管控" },
       { key: "forbidden_hazardous", name: "危险品车辆禁行时段管控" },
       { key: "staff_unattended", name: "工作人员进入安全提示" },
-      { key: "barrier_anomaly", name: "栏杆异常" },
-      { key: "wrongway_driver", name: "车辆逆行及闯卡" }
+      { key: "barrier_anomaly", name: "栏杆异常" }
     ];
   }, []);
 
@@ -125,7 +124,7 @@ export default function CameraManagementView({
       ],
       boundedLanes: "车道01-入口, 车道02-入口",
       lastActiveTime: "2026-06-17 15:24:11",
-      assignedEvents: ["pedestrian_intrusion", "motorcycle_intrusion", "forbidden_bus", "forbidden_hazardous", "wrongway_driver"],
+      assignedEvents: ["pedestrian_intrusion", "motorcycle_intrusion", "forbidden_bus", "forbidden_hazardous"],
       boundSpeakerId: "yongchuan23",
       boundSpeakerIds: ["yongchuan23"],
       prohibitedTimeEnabled: true,
@@ -160,7 +159,7 @@ export default function CameraManagementView({
       ],
       boundedLanes: "车道03-出口(ETC)",
       lastActiveTime: "2026-06-17 15:23:44",
-      assignedEvents: ["barrier_anomaly", "wrongway_driver"],
+      assignedEvents: ["barrier_anomaly"],
       boundSpeakerId: "yongchuan24",
       boundSpeakerIds: ["yongchuan24"],
       prohibitedTimeEnabled: true,
@@ -230,7 +229,7 @@ export default function CameraManagementView({
       ],
       boundedLanes: "车道01-出口, 车道02-出口",
       lastActiveTime: "2026-06-17 15:18:19",
-      assignedEvents: ["pedestrian_intrusion", "motorcycle_intrusion", "barrier_anomaly", "wrongway_driver"],
+      assignedEvents: ["pedestrian_intrusion", "motorcycle_intrusion", "barrier_anomaly"],
       boundSpeakerId: "",
       boundSpeakerIds: [],
       prohibitedTimeEnabled: false,
