@@ -1,0 +1,6 @@
+{
+  "name": "收费站车道特情事件管理系统",
+  "description": "监控并管理收费站车道的特情事件，如行人闯入、两轮车闯入、两客一危禁行时段、栏杆异常等，提供实时监控、事件处理和基础配置管理。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
