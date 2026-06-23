@@ -127,9 +127,14 @@ export default function RealTimeView({
       {/* Top Title Section */}
       <div className="flex items-center justify-between pb-2 border-b border-gray-200 shrink-0">
         <div className="flex items-center space-x-2">
-          <span className="text-blue-600 font-bold border-b-2 border-blue-600 pb-2 text-sm">
+          <span className="text-blue-600 font-bold border-b-2 border-blue-600 pb-2 text-sm z-10-not-essential">
             实时监控
           </span>
+          <span className="text-gray-400 text-xs font-normal"> / 视频联控</span>
+        </div>
+        <div className="flex items-center space-x-1.5 text-xs text-blue-500 font-medium font-sans select-none">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse shrink-0" />
+          <span>{countdown}s 后自动刷新</span>
         </div>
       </div>
 
@@ -415,23 +420,23 @@ export default function RealTimeView({
               <ul className="text-[11px] text-gray-800 space-y-2 list-none p-0 m-0 leading-relaxed">
                 <li className="flex items-start gap-1 pb-1 border-b border-amber-200/50">
                   <span className="text-amber-500 mr-0.5">●</span>
-                  <span><strong>只展示未处理事件</strong>，此处处理后事件列表该事件状态同步更新</span>
+                  <span><strong>只展示待处理特情</strong>，点击处置或关闭后，列表自动移除且状态同步。</span>
                 </li>
                 <li className="flex items-start gap-1 pb-1 border-b border-amber-200/50">
                   <span className="text-amber-500 mr-0.5">●</span>
-                  <span><strong>告警时间越近越靠前</strong></span>
+                  <span><strong>点击「去处理」一键直达</strong>：自动跳转到「特情记录」并立刻弹出处置框，直接呈现事件抓拍原图。</span>
                 </li>
                 <li className="flex items-start gap-1 pb-1 border-b border-amber-200/50">
                   <span className="text-amber-500 mr-0.5">●</span>
-                  <span>工作人员提示类型按钮显示为<strong>【关闭】</strong></span>
+                  <span><strong>最近告警处于最上方</strong>：列表根据告警发生时间进行逆序排列，提升响应速效。</span>
                 </li>
                 <li className="flex items-start gap-1 pb-1 border-b border-amber-200/50">
                   <span className="text-amber-500 mr-0.5">●</span>
-                  <span>列表<strong>30s自动刷新一次</strong></span>
+                  <span><strong>【工作人员进入安全提示】</strong>的快速操作动作为<strong>【关闭】</strong>，其余异常显示为<strong>【去处理】</strong>。</span>
                 </li>
                 <li className="flex items-start gap-1">
                   <span className="text-amber-500 mr-0.5">●</span>
-                  <span>栏杆还是要处理，但是不播放</span>
+                  <span><strong>30s周期自动刷新</strong>：页面内置倒计时器，每30秒更新一次动态，保障不遗漏任何最新特情。</span>
                 </li>
               </ul>
               <div className="mt-2 text-[10px] text-gray-400 text-right font-medium">

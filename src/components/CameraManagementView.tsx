@@ -1796,10 +1796,12 @@ export default function CameraManagementView({
           <AlertCircle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <span className="font-bold text-gray-900 block text-xs">摄像头及 AI 框定车道区说明</span>
-            <p>• <strong>车道框定机制</strong>：直接点击列表中相应相机的<strong>“车道框定 (ROI)” 预览图</strong>，即可开启高精度的可视化 ROI（Region of Interest）校准。调校滑块对准物理车道起杆线。</p>
-            <p>• <strong>联动智能检测</strong>：此处框定的感应范围完美联动“工作台-实时监控”的特情识别逻辑，可有效过滤背景行驶车辆而专注于入口非机动车/行人拦截通告。</p>
-            <div className="flex justify-between text-[10px] text-yellow-700/80 pt-1 font-bold">
-              <span>四川高速科技一站式检测中心</span>
+            <p>• <strong>车道框定 (ROI) 机制</strong>：直接点击列表中相应相机的<strong>“车道框定 (ROI)” 预览图</strong>，即可开启可视化多边行区域标注。支持通过鼠标点击添加顶点、拖拽顶点调整位置完成高精度感知范围校准，无需复杂物理滑块配置。</p>
+            <p>• <strong>级别框定 (LEVELS)</strong>：直接点击<strong>“级别框定” 预览图</strong>，支持对当前摄像头布控画面配置 <strong>Level 1（高危拦截区域）</strong>和 <strong>Level 2（一般警示区域）</strong>，以适配多层级联动告警逻辑并保障精细化管理。</p>
+            <p>• <strong>智能事件分配</strong>：通过操作列的<strong>“事件分配”</strong>按钮，可灵活配置和勾选此摄像头当前启用的 AI 检测场景（如行人侵入岛头、逆行、异常停留等），实现一场一策、敏捷定制的布控方案。</p>
+            <p>• <strong>多音响精准筛选绑定</strong>：在新增或编辑窗口中，系统自动推荐<strong>该摄像头所属收费站内、且未被关联的空响/音响设备</strong>，支持勾选多个音响设备进行精准广播协同。若所属站内无可用空闲音响，将触发黄色警示提示。</p>
+            <p>• <strong>联动即时注销解绑</strong>：在注销/移除了带有关联音响的摄像头时，系统将自动重置相关音响的绑定状态并释出空闲引用，保证 `localStorage` 本地关系在注销时能持久稳定地保持一致性。</p>
+            <div className="flex justify-end text-[10px] text-yellow-700/80 pt-1 font-bold">
               <span>漂亮小狗💛</span>
             </div>
           </div>

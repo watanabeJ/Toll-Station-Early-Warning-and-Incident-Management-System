@@ -614,26 +614,7 @@ export default function PermissionManagementView({
               </div>
             </form>
 
-            {/* Floating Annotation (From Screenshot) */}
-            {showAnnotations && (
-              <div
-                className="absolute top-1/2 left-1/2 transform -translate-y-1/2 translate-x-20 w-56 border border-yellow-400 rounded overflow-hidden shadow-lg bg-white z-20"
-                data-purpose="floating-annotation"
-              >
-                <div className="bg-yellow-400 text-white px-3 py-1 text-xs flex justify-between items-center font-bold">
-                  <span>7</span>
-                </div>
-                <div className="p-3 text-xs leading-relaxed space-y-4">
-                  <p className="font-bold text-gray-800">编辑代入历史填写数据</p>
-                  <p className="text-gray-400 italic">漂亮小狗💛</p>
-                </div>
-                {/* Indicator Line Decor */}
-                <div className="absolute -left-6 top-1/2 -translate-y-1/2 flex items-center select-none pointer-events-none">
-                  <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
-                  <div className="w-4 h-[1px] bg-yellow-400"></div>
-                </div>
-              </div>
-            )}
+
           </div>
         </div>
       )}

@@ -772,59 +772,6 @@ export default function DeviceManagementView({
         </div>
 
         {/* -------------------- CALLOUT ANNOTATIONS PINS OVERLAY -------------------- */}
-        {showAnnotations && (
-          <div className="absolute inset-0 pointer-events-none z-10 overflow-visible">
-            
-            {/* CALLOUT 14: 离线：根据心跳检测... (Pointed to yongchuan24 row status column) */}
-            <div
-              className="absolute left-[36%] top-[108px] w-64 border border-yellow-400 rounded-lg overflow-hidden shadow-md bg-white pointer-events-auto animate-fadeIn"
-              style={{ animationDelay: "100ms" }}
-            >
-              {/* Yellow header bar with number 14 */}
-              <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
-                <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
-                  14
-                </span>
-              </div>
-              {/* Content box */}
-              <div className="p-3 bg-white text-xs text-gray-700 space-y-2 leading-relaxed">
-                <p className="font-bold text-gray-905">离线：根据心跳检测，n分钟没有收到消息则为离线（具体指标后端定义）</p>
-                <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
-                  漂亮小狗💛
-                </p>
-              </div>
-              {/* Connector pin and vertical line upward to yongchuan24 status cel */}
-              <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 pointer-events-none select-none flex flex-col items-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
-                <div className="w-[1.5px] h-10 bg-yellow-400"></div>
-              </div>
-            </div>
-
-            {/* CALLOUT 15: 升级要纳入操作日志 (Pointed to the date column aligned with row yongchuan24) */}
-            <div
-              className="absolute right-[1%] top-[110px] w-56 border border-yellow-400 rounded-lg overflow-hidden shadow-md bg-white pointer-events-auto animate-fadeIn"
-              style={{ animationDelay: "200ms" }}
-            >
-              <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
-                <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
-                  15
-                </span>
-              </div>
-              <div className="p-3 bg-white text-xs text-gray-700 space-y-2 leading-relaxed">
-                <p className="font-bold text-gray-905">升级要纳入操作日志</p>
-                <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
-                  漂亮小狗💛
-                </p>
-              </div>
-              {/* Connector line extending upward vertically */}
-              <div className="absolute -top-12 left-[90%] pointer-events-none select-none flex flex-col items-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
-                <div className="w-[1.5px] h-10 bg-yellow-400"></div>
-              </div>
-            </div>
-
-          </div>
-        )}
       </div>
 
       {/* 4. Bottom Row Container: ADD DEVICE CARD & PAGINATION PANEL */}
@@ -973,6 +920,7 @@ export default function DeviceManagementView({
                 >
                   {/* Yellow header bar with number 13 */}
                   <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
+                    <span>收费站与屏幕设备绑定</span>
                     <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
                       13
                     </span>
@@ -981,7 +929,7 @@ export default function DeviceManagementView({
                   <div className="p-3 bg-white text-xs text-gray-800 space-y-2 leading-relaxed">
                     <p className="font-bold text-gray-900">只能选择开启的收费站</p>
                     <p className="font-bold text-gray-900">编号唯一</p>
-                    <p className="font-bold text-gray-900">语音默认是关闭</p>
+                    <p className="font-bold text-gray-900">数字人问答默认是关闭</p>
                     <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
                       漂亮小狗💛
                     </p>

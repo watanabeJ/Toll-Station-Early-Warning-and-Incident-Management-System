@@ -846,50 +846,6 @@ export default function WatchManagementView({
           </table>
         </div>
 
-        {/* -------------------- CALLOUT ANNOTATIONS PINS OVERLAY -------------------- */}
-        {showAnnotations && (
-          <div className="absolute inset-0 pointer-events-none z-10 overflow-visible">
-            
-            {/* CALLOUT #16: 特情协同与紧急呼叫 */}
-            <div
-              className="absolute left-[3%] -top-[15px] w-64 border border-yellow-400 rounded-lg overflow-hidden shadow-md bg-white pointer-events-auto animate-fadeIn"
-              style={{ animationDelay: "100ms" }}
-            >
-              <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
-                <span>特情震动协同</span>
-                <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
-                  16
-                </span>
-              </div>
-              <div className="p-3 bg-white text-xs text-gray-700 space-y-2 leading-relaxed">
-                <p className="font-bold text-gray-905">特情震动提醒：手表接收到突发特情事件（如行人闯入、车辆违停）时会高频震动闪屏，保障一线人员全天候精确定位感知。</p>
-                <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
-                  漂亮小狗💛
-                </p>
-              </div>
-            </div>
-
-            {/* CALLOUT #17: 实时电量监控及自检测机制 */}
-            <div
-              className="absolute right-[5%] top-[120px] w-64 border border-yellow-400 rounded-lg overflow-hidden shadow-md bg-white pointer-events-auto animate-fadeIn"
-              style={{ animationDelay: "200ms" }}
-            >
-              <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
-                <span>自检和低电预警</span>
-                <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
-                  17
-                </span>
-              </div>
-              <div className="p-3 bg-white text-xs text-gray-700 space-y-2 leading-relaxed">
-                <p className="font-bold text-gray-905">电池状态上报：设备端每隔10分钟检测打包上报，低电量（未满20%）的智能设备会自动标红并提示负责人更换备用表。</p>
-                <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
-                  漂亮小狗💛
-                </p>
-              </div>
-            </div>
-
-          </div>
-        )}
       </div>
 
 
@@ -1127,26 +1083,7 @@ export default function WatchManagementView({
 
             </form>
 
-            {/* CALLOUT ANNOTATION 18 PINNED RIGHT OF MODAL */}
-            {showAnnotations && (
-              <div
-                className="absolute left-[97%] ml-6 top-[28px] w-64 border border-yellow-400 rounded-lg overflow-hidden shadow-md bg-white pointer-events-auto z-40 animate-fadeIn"
-                style={{ animationDelay: "150ms" }}
-              >
-                <div className="bg-yellow-400 text-white px-3 py-1 text-xs font-bold flex justify-between items-center">
-                  <span>多角色穿戴配置</span>
-                  <span className="font-mono text-[10px] bg-yellow-500/60 text-white w-4 h-4 rounded-full flex items-center justify-center">
-                    18
-                  </span>
-                </div>
-                <div className="p-3 bg-white text-xs text-gray-800 space-y-2 leading-relaxed">
-                  <p className="font-bold text-gray-900">多重岗位绑定：支持在多车道收费站内，将不同的班组负责人与维护干事分别归入智能调度协助人流转网中。</p>
-                  <p className="text-right text-yellow-600 font-bold text-[10px] pt-1">
-                    漂亮小狗💛
-                  </p>
-                </div>
-              </div>
-            )}
+
           </div>
         </div>
       )}
