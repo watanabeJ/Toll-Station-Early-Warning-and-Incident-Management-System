@@ -129,7 +129,7 @@ export default function WatchManagementView({
         }
       } catch (e) {}
     }
-    // Now, synchronize roleName with actual accounts to prevent "应急协助员" from popping up
+    // Now, synchronize roleName and wearer with actual accounts to prevent mismatch
     const savedAcc = localStorage.getItem("sub_accounts_db");
     if (savedAcc) {
       try {
@@ -140,6 +140,7 @@ export default function WatchManagementView({
             if (match) {
               return {
                 ...w,
+                wearer: match.username,
                 roleName: match.role || "值班站长"
               };
             }
@@ -340,7 +341,7 @@ export default function WatchManagementView({
   }, [watches]);
 
   // Load actual personnel belonging to the selected station from sub_accounts_db
-  const getStaffListByStation = (stationName: string): { name: string; role: string }[] => {
+  const getStaffListByStation = (stationName: string): { name: string; contact?: string; role: string }[] => {
     const savedAcc = localStorage.getItem("sub_accounts_db");
     let accountItems: any[] = [];
     if (savedAcc) {
@@ -361,15 +362,13 @@ export default function WatchManagementView({
 
     if (filteredAccounts.length > 0) {
       return filteredAccounts.map(acc => ({
-        name: acc.contact || acc.username,
+        name: acc.username,
+        contact: acc.contact || "",
         role: systemToDeviceRole(acc.role)
       }));
     }
 
-    return STATION_STAFF_MAP[stationName] || [
-      { name: `${stationName}站长`, role: "值班站长" },
-      { name: `${stationName}收费员`, role: "前台收费员" }
-    ];
+    return [];
   };
 
   const handleStationChange = (st: string) => {
@@ -380,7 +379,7 @@ export default function WatchManagementView({
       setFormRole(list[0].role);
     } else {
       setFormWearer("");
-      setFormRole("值班站长");
+      setFormRole("");
     }
   };
 
@@ -495,7 +494,7 @@ export default function WatchManagementView({
       return;
     }
     if (!formWearer.trim()) {
-      alert("请输入佩戴人姓名");
+      alert("请选择佩戴人账号");
       return;
     }
 
@@ -767,7 +766,7 @@ export default function WatchManagementView({
               <tr className="bg-[#f5f5f5] text-gray-700 font-semibold border-b border-gray-200">
                 <th className="py-3 px-4 border-r border-gray-200 font-semibold w-16 text-gray-600">序号</th>
                 <th className="py-3 px-4 border-r border-gray-200 font-semibold w-36 text-gray-600">手表设备ID</th>
-                <th className="py-3 px-4 border-r border-gray-200 font-semibold text-gray-600">佩戴人员</th>
+                <th className="py-3 px-4 border-r border-gray-200 font-semibold text-gray-600">佩戴人账号</th>
                 <th className="py-3 px-4 border-r border-gray-200 font-semibold text-gray-600">所属收费站</th>
                 <th className="py-3 px-4 border-r border-gray-200 font-semibold text-gray-600">手表状态</th>
                 <th className="py-3 px-4 font-semibold text-gray-600 w-32">操作</th>
@@ -790,8 +789,21 @@ export default function WatchManagementView({
                     </td>
 
                     {/* Wearer info */}
-                    <td className="py-3 px-4 border-r border-gray-200 font-semibold text-gray-800">
-                      {w.wearer}
+                    <td className="py-3 px-4 border-r border-gray-200 text-gray-800">
+                      <span className="font-mono text-xs font-semibold block">{w.wearer}</span>
+                      {(() => {
+                        const savedAcc = localStorage.getItem("sub_accounts_db");
+                        if (savedAcc) {
+                          try {
+                            const accounts = JSON.parse(savedAcc);
+                            const match = accounts.find((acc: any) => acc.username === w.wearer);
+                            if (match && match.contact) {
+                              return <span className="text-[10px] font-normal text-gray-400 block mt-0.5">{match.contact}</span>;
+                            }
+                          } catch (e) {}
+                        }
+                        return null;
+                      })()}
                     </td>
 
                     {/* Belonging Station */}
@@ -930,31 +942,20 @@ export default function WatchManagementView({
                 </label>
                 
                 <div className="flex-1 relative" id="form-station-select-container">
-                  <button
-                    type="button"
-                    onClick={() => handleStationChange(availableStations[0] || "永川西收费站")}
-                    className="w-full bg-white border border-gray-300 rounded px-2.5 py-1.5 flex items-center justify-between text-xs cursor-pointer focus:outline-none focus:border-blue-500 h-8 text-left"
+                  <select
+                    value={formStation}
+                    onChange={(e) => handleStationChange(e.target.value)}
+                    className="w-full appearance-none bg-white border border-gray-300 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 h-8 cursor-pointer text-gray-800 pr-8"
+                    required
                   >
-                    <span className="text-gray-800">
-                      {formStation || (availableStations[0] || "永川西收费站")}
-                    </span>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                  </button>
-                  {/* Since simple clicks work on input overlays, we set it straight or fallback to quick select */}
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {availableStations.map(st => (
-                      <span
-                        key={st}
-                        onClick={() => {
-                          handleStationChange(st);
-                          setOpenFormStationDrop(false);
-                        }}
-                        className={`text-[10px] px-2 py-0.5 rounded cursor-pointer border ${formStation === st ? "bg-blue-50 border-blue-400 text-blue-600 font-medium" : "bg-gray-50 border-gray-200 text-gray-600"}`}
-                      >
+                    {!formStation && <option value="">请选择收费站</option>}
+                    {availableStations.map((st) => (
+                      <option key={st} value={st}>
                         {st}
-                      </span>
+                      </option>
                     ))}
-                  </div>
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-2.5 pointer-events-none" />
                 </div>
               </div>
 
@@ -968,7 +969,7 @@ export default function WatchManagementView({
                     type="text"
                     value={formWatchId}
                     onChange={(e) => setFormWatchId(e.target.value)}
-                    placeholder="W_YCW_005 或全球专属码"
+                    placeholder="例：W_YCW_OO5"
                     className="w-full bg-white border border-gray-300 rounded px-3 py-1.5 text-xs outline-none focus:border-blue-500 h-8"
                     required
                   />
@@ -978,7 +979,7 @@ export default function WatchManagementView({
               {/* Field 3: 佩戴人员 */}
               <div className="flex items-start">
                 <label className="w-24 text-right pr-3 pt-1.5 text-xs text-gray-600 font-medium whitespace-nowrap">
-                  佩戴人姓名
+                  佩戴人账号
                 </label>
                 <div className="flex-1 relative">
                   <select
@@ -992,15 +993,21 @@ export default function WatchManagementView({
                         setFormRole(matched.role);
                       }
                     }}
-                    className="w-full appearance-none bg-white border border-gray-300 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 h-8 cursor-pointer"
+                    className={`w-full appearance-none bg-white border border-gray-300 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 h-8 cursor-pointer pr-8 ${!formWearer ? "text-gray-400" : "text-gray-800"}`}
                     required
                   >
-                    {!formWearer && <option value="">请选择人员</option>}
-                    {currentStaffList.map((item) => (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
+                    {currentStaffList.length === 0 ? (
+                      <option value="" className="text-gray-400">当前收费站下无账号，请先在账号管理中创建</option>
+                    ) : (
+                      <>
+                        {!formWearer && <option value="" className="text-gray-400">请选择账号</option>}
+                        {currentStaffList.map((item) => (
+                          <option key={item.name} value={item.name} className="text-gray-800">
+                            {item.name} {item.contact ? `(${item.contact})` : ""}
+                          </option>
+                        ))}
+                      </>
+                    )}
                   </select>
                   <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-2.5 pointer-events-none" />
                 </div>

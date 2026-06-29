@@ -326,6 +326,11 @@ export default function App() {
   const getUserAllowedStations = React.useCallback((): string[] => {
     if (!currentUser) return [];
     
+    // The toll stations should be fully visible to the admin.
+    if (currentUser === "admin") {
+      return stations.map((s) => s.name);
+    }
+    
     const saved = localStorage.getItem("sub_accounts_db");
     let accountsList: any[] = [];
     if (saved) {
@@ -341,13 +346,8 @@ export default function App() {
       return matched.station.split(/、|,|，\s*/).map((s: string) => s.trim()).filter(Boolean);
     }
     
-    // Fallback if not found (e.g. default admin during first run)
-    if (currentUser === "admin") {
-      return ["永川西收费站"];
-    }
-    
     return [];
-  }, [currentUser]);
+  }, [currentUser, stations]);
 
   const userAllowedStations = React.useMemo(() => {
     return getUserAllowedStations();
@@ -355,18 +355,21 @@ export default function App() {
 
   // Filter events by the current user's authorized toll stations
   const filteredUserEvents = React.useMemo(() => {
+    if (currentUser === "admin") return events;
     if (userAllowedStations.length === 0) return events;
     return events.filter(e => userAllowedStations.includes(e.station));
-  }, [events, userAllowedStations]);
+  }, [events, userAllowedStations, currentUser]);
 
   // Filter stations by user allowed stations
   const filteredUserStations = React.useMemo(() => {
+    if (currentUser === "admin") return stations;
     if (userAllowedStations.length === 0) return stations;
     return stations.filter(s => userAllowedStations.includes(s.name));
-  }, [stations, userAllowedStations]);
+  }, [stations, userAllowedStations, currentUser]);
 
   // Filter operation logs so that only logs of people who share the allowed stations are viewed
   const filteredUserLogs = React.useMemo(() => {
+    if (currentUser === "admin") return logs;
     if (userAllowedStations.length === 0) return logs;
     
     // Load accounts to find operators' stations
@@ -419,6 +422,19 @@ export default function App() {
           />
         );
       case "station":
+        if (currentUser !== "admin") {
+          return (
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] p-8">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-5 rounded-xl shadow-sm text-center max-w-md animate-fadeIn">
+                <svg className="w-12 h-12 text-red-500 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <h3 className="font-bold text-lg mb-1">无权访问</h3>
+                <p className="text-sm text-red-600 mb-4">收费站管理页面仅限超级管理员角色使用。</p>
+              </div>
+            </div>
+          );
+        }
         return (
           <StationManagementView
             stations={filteredUserStations}
@@ -658,24 +674,26 @@ export default function App() {
             <div className="space-y-0.5">
               
               {/* Category: 收费站管理 */}
-              <button
-                onClick={() => setCurrentMenu("station")}
-                className={`w-full text-left px-5 py-3 hover:bg-gray-50/80 transition cursor-pointer flex items-center gap-2.5 font-sans relative ${
-                  currentMenu === "station"
-                    ? "bg-blue-50/65 text-blue-600 border-r-4 border-blue-600 font-semibold"
-                    : "text-gray-700"
-                }`}
-              >
-                {/* Custom Roadway / Toll Pillars Gate Icon */}
-                <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 6h16" />
-                  <path d="M6 6v14" />
-                  <path d="M12 6v14" />
-                  <path d="M18 6v14" />
-                  <path d="M3 10h18" />
-                </svg>
-                <span className="text-[13px]">收费站管理</span>
-              </button>
+              {currentUser === "admin" && (
+                <button
+                  onClick={() => setCurrentMenu("station")}
+                  className={`w-full text-left px-5 py-3 hover:bg-gray-50/80 transition cursor-pointer flex items-center gap-2.5 font-sans relative ${
+                    currentMenu === "station"
+                      ? "bg-blue-50/65 text-blue-600 border-r-4 border-blue-600 font-semibold"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {/* Custom Roadway / Toll Pillars Gate Icon */}
+                  <svg className="w-4 h-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 6h16" />
+                    <path d="M6 6v14" />
+                    <path d="M12 6v14" />
+                    <path d="M18 6v14" />
+                    <path d="M3 10h18" />
+                  </svg>
+                  <span className="text-[13px]">收费站管理</span>
+                </button>
+              )}
 
               {/* Category: 权限管理 */}
               <button
